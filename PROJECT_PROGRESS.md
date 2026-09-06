@@ -12,7 +12,7 @@
 | Etapa | Nombre                    | Estado      | Fecha      |
 |-------|---------------------------|-------------|------------|
 | 0     | Inspección y Plan         | ✅ Completa | 2026-09-06 |
-| 1     | Diseño y UI Base          | ⏳ Pendiente |            |
+| 1     | Diseño y UI Base          | ✅ Completa | 2026-09-06 |
 | 2     | Supabase y Autenticación  | ⏳ Pendiente |            |
 | 3     | Publicación de Propiedades| ⏳ Pendiente |            |
 | 4     | Búsqueda y Mapa           | ⏳ Pendiente |            |
@@ -543,6 +543,21 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 1 — 2026-09-06
+- Next.js 16.3.4 + TypeScript + Tailwind CSS 4 configurados manualmente
+- Identidad visual: paleta navy/accent/success, tipografía Inter, globals.css con @theme
+- Header sticky con menú móvil (MobileMenu)
+- Footer completo con 4 columnas de navegación
+- HeroSection con gradiente navy, estadísticas y SearchBar
+- SearchBar con tabs Comprar/Alquiler, campo de texto y selector de departamento
+- PropertyCard con imagen, badges de operación, favoritos, precio, tipo, ubicación y características
+- Secciones home: FeaturedProperties, RecentProperties, DepartmentExplorer (14 dept.), OwnerCTA
+- 8 propiedades mock con datos reales de El Salvador (casas, apartamentos, terreno, finca, local, playa)
+- Páginas stub: /comprar, /alquilar, /iniciar-sesion, /crear-cuenta, 404
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 errores, 0 warnings · Build: ✅ exitoso
+- Repositorio GitHub creado: https://github.com/julioolivodeveloper/conexhome-sv
+- Commit: af3c30e · 37 archivos · 9,507 líneas
 
 ### Etapa 0 — 2026-09-06
 - Directorio del proyecto creado en `/Users/jeoh123/conexhome-sv`
