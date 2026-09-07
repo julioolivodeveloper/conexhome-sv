@@ -2,16 +2,18 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Bed, Bath, Car, Maximize2, Heart } from 'lucide-react'
+import { MapPin, Bed, Bath, Car, Maximize2 } from 'lucide-react'
 import type { Property } from '@/types/property'
 import { formatPrice, formatArea, propertyTypeLabel } from '@/lib/utils/format'
 import Badge from '@/components/ui/Badge'
+import FavoriteButton from '@/components/favorites/FavoriteButton'
 
 interface PropertyCardProps {
   property: Property
+  isFavorited?: boolean
 }
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({ property, isFavorited = false }: PropertyCardProps) {
   const {
     slug,
     title,
@@ -64,16 +66,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         {/* Favorite button */}
-        <button
-          className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full flex items-center justify-center shadow-sm transition-all hover:scale-110"
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-          aria-label="Guardar en favoritos"
-        >
-          <Heart className="w-4 h-4 text-slate-400 hover:text-red-500 transition-colors" />
-        </button>
+        <div className="absolute top-3 right-3">
+          <FavoriteButton propertyId={property.id} initialFavorited={isFavorited} />
+        </div>
 
         {/* Tags */}
         {(price_negotiable || financing_available) && (

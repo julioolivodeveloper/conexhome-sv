@@ -28,6 +28,15 @@ export default async function RentPage({ searchParams }: PageProps) {
   const to = from + PAGE_SIZE - 1
 
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  let favoriteIds = new Set<string>()
+  if (user) {
+    const { data: favs } = await supabase
+      .from('favorites')
+      .select('property_id')
+      .eq('user_id', user.id)
+    favoriteIds = new Set(favs?.map((f) => f.property_id) ?? [])
+  }
 
   let countQuery = supabase
     .from('properties')
@@ -120,7 +129,7 @@ export default async function RentPage({ searchParams }: PageProps) {
           <MapViewToggle properties={mapProperties}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {properties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+                <PropertyCard key={property.id} property={property} isFavorited={favoriteIds.has(property.id)} />
               ))}
             </div>
             <Pagination total={total ?? 0} currentPage={page} />

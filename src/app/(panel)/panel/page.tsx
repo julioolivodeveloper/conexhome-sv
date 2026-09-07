@@ -34,6 +34,13 @@ export default async function PanelPage() {
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
 
+  const { data: unreadRows } = await supabase
+    .from('conversation_participants')
+    .select('unread_count')
+    .eq('user_id', user.id)
+
+  const unreadTotal = unreadRows?.reduce((sum, r) => sum + (r.unread_count ?? 0), 0) ?? 0
+
   const firstName = (profile?.full_name ?? user.email ?? 'Usuario').split(' ')[0]
   const usedSlots = activeCount ?? 0
   const maxSlots = APP_CONFIG.MAX_FREE_PROPERTIES
@@ -55,7 +62,7 @@ export default async function PanelPage() {
     },
     {
       label: 'Mensajes',
-      value: '0',
+      value: String(unreadTotal),
       icon: MessageSquare,
       color: 'bg-success-light text-success',
       href: '/mensajes',

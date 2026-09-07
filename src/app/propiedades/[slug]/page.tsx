@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice, formatArea, formatRelativeTime } from '@/lib/utils/format'
+import SendMessageButton from '@/components/messages/SendMessageButton'
+import FavoriteButton from '@/components/favorites/FavoriteButton'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -33,6 +35,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
   const { slug } = await params
   const supabase = await createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+
   const { data: property } = await supabase
     .from('properties')
     .select(`
@@ -46,6 +50,18 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     .single()
 
   if (!property) notFound()
+
+  // Check if current user favorited this property
+  let isFavorited = false
+  if (user) {
+    const { data: fav } = await supabase
+      .from('favorites')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('property_id', property.id)
+      .maybeSingle()
+    isFavorited = !!fav
+  }
 
   const images = (property.property_images as Array<{ public_url: string; display_order: number; is_cover: boolean }>)
     ?.sort((a, b) => a.display_order - b.display_order) ?? []
@@ -309,11 +325,25 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   </a>
                 )}
 
+                <SendMessageButton
+                  propertyId={property.id}
+                  sellerId={property.user_id}
+                  currentUserId={user?.id ?? null}
+                />
+
                 {!whatsappUrl && !contactPhone && (
                   <p className="text-xs text-slate-400 text-center">
                     El vendedor no ha publicado datos de contacto
                   </p>
                 )}
+              </div>
+
+              {/* Favorite */}
+              <div className="mt-4 flex items-center gap-2">
+                <FavoriteButton propertyId={property.id} initialFavorited={isFavorited} size="md" />
+                <span className="text-xs text-slate-500">
+                  {isFavorited ? 'Guardada en favoritos' : 'Guardar en favoritos'}
+                </span>
               </div>
 
               <p className="text-xs text-slate-400 mt-4 text-center leading-relaxed">
