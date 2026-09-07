@@ -16,7 +16,7 @@
 | 2     | Supabase y Autenticación  | ✅ Completa | 2026-09-06 |
 | 3     | Publicación de Propiedades| ✅ Completa | 2026-09-06 |
 | 4     | Búsqueda y Mapa           | ✅ Completa | 2026-09-06 |
-| 5     | Favoritos y Mensajes      | ⏳ Pendiente |            |
+| 5     | Favoritos y Mensajes      | ✅ Completa | 2026-09-06 |
 | 6     | Administración y Reportes | ⏳ Pendiente |            |
 | 7     | SEO y Optimización        | ⏳ Pendiente |            |
 | 8     | Despliegue                | ⏳ Pendiente |            |
@@ -543,6 +543,24 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 5 — 2026-09-06
+- SQL: trigger `update_conversation_on_message` — actualiza `conversations.updated_at` e incrementa `unread_count` al insertar mensaje
+- SQL: `ALTER PUBLICATION supabase_realtime ADD TABLE messages` — habilita Realtime en la tabla messages
+- favorites.ts: `toggleFavorite` Server Action — agrega/quita favorito, revalida /favoritos y /panel
+- messages.ts: `createOrGetConversation`, `sendMessage`, `markConversationRead` Server Actions
+- FavoriteButton: Client Component optimista — corazón rojo/gris, redirect a login si no autenticado
+- PropertyCard: recibe `isFavorited?: boolean`, usa FavoriteButton en lugar del botón estático
+- /comprar y /alquilar: pre-fetch de favorites server-side para pasar `isFavorited` por tarjeta
+- SendMessageButton: Client Component — crea/obtiene conversación y redirige a /mensajes/[id]; invisible si el viewer es el dueño
+- MessageInput: Client Component — textarea con Enter para enviar, Shift+Enter para salto de línea
+- MessageThread: Client Component con Supabase Realtime (postgres_changes INSERT en messages) — auto-scroll al último mensaje, evita duplicados
+- /favoritos: lista de propiedades guardadas con grid igual al de /comprar, estado vacío con CTA
+- /mensajes: lista de conversaciones con thumbnail de propiedad, badge de no leídos, última actualización
+- /mensajes/[conversationId]: hilo de chat sticky header con info de propiedad, verificación de participante vía RLS, marca como leído al abrir
+- /propiedades/[slug]: agrega SendMessageButton y FavoriteButton (con estado inicial server-side) en el card de contacto
+- Panel: conteo real de mensajes no leídos (suma de unread_count del usuario)
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 warnings · Build: ✅ exitoso (17 rutas)
 
 ### Etapa 4 — 2026-09-06
 - maplibre-gl instalado como dependencia
