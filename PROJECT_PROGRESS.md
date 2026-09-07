@@ -18,7 +18,7 @@
 | 4     | Búsqueda y Mapa           | ✅ Completa | 2026-09-06 |
 | 5     | Favoritos y Mensajes      | ✅ Completa | 2026-09-06 |
 | 6     | Administración y Reportes | ✅ Completa | 2026-09-06 |
-| 7     | SEO y Optimización        | ⏳ Pendiente |            |
+| 7     | SEO y Optimización        | ✅ Completa | 2026-09-06 |
 | 8     | Despliegue                | ⏳ Pendiente |            |
 
 ---
@@ -543,6 +543,20 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 7 — 2026-09-06
+- SQL: `increment_property_view(p_property_id UUID)` — SECURITY DEFINER, incrementa view_count solo en propiedades publicadas
+- Tipos Supabase regenerados para incluir la nueva función RPC
+- `robots.ts` — bloquea indexación de /admin, /panel, /publicar, /favoritos, /mensajes, /auth
+- `sitemap.ts` — genera sitemap dinámico: propiedades publicadas (hasta 5000) + 14 departamentos + 12 tipos + páginas estáticas
+- `ViewTracker` — Client Component con useRef para llamar trackPropertyView una sola vez por visita (solo en browser)
+- `PropertyJsonLd` — JSON-LD schema.org RealEstateListing inyectado en `<head>` vía `<script type="application/ld+json">`
+- `/departamento/[slug]` — 14 páginas SSG con generateStaticParams, grid de propiedades filtradas por departamento, links a /comprar y /alquilar con filtro, breadcrumb, links a otros departamentos
+- `/tipo/[slug]` — 12 páginas SSG con generateStaticParams, grid filtrado por tipo de propiedad, links cruzados
+- `generateMetadata` mejorado en detalle de propiedad: OG image con cover_image_url, Twitter card, descripción dinámica
+- `layout.tsx` mejorado: keywords, authors, OG completo con URL y descripción, Twitter card global
+- Build genera sitemap.xml y robots.txt estáticos
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 warnings · Build: ✅ 26 rutas
 
 ### Etapa 6 — 2026-09-06
 - createAdminClient() con SUPABASE_SERVICE_ROLE_KEY — server-only, bypassea RLS solo en acciones admin verificadas
