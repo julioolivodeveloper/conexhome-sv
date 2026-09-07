@@ -17,7 +17,7 @@
 | 3     | Publicación de Propiedades| ✅ Completa | 2026-09-06 |
 | 4     | Búsqueda y Mapa           | ✅ Completa | 2026-09-06 |
 | 5     | Favoritos y Mensajes      | ✅ Completa | 2026-09-06 |
-| 6     | Administración y Reportes | ⏳ Pendiente |            |
+| 6     | Administración y Reportes | ✅ Completa | 2026-09-06 |
 | 7     | SEO y Optimización        | ⏳ Pendiente |            |
 | 8     | Despliegue                | ⏳ Pendiente |            |
 
@@ -543,6 +543,20 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 6 — 2026-09-06
+- createAdminClient() con SUPABASE_SERVICE_ROLE_KEY — server-only, bypassea RLS solo en acciones admin verificadas
+- Admin layout: doble guardia — middleware verifica auth, layout verifica is_admin, redirige a /panel si no es admin
+- AdminSidebar: navegación navy con links a Dashboard, Propiedades, Usuarios, Reportes
+- admin.ts: setPropertyHidden, setPropertyFeatured, setPropertyStatus, setUserSuspended, resolveReport — todas verifican is_admin y registran en admin_actions
+- reports.ts: createReport — cualquier usuario autenticado puede reportar una propiedad ajena
+- /admin: dashboard con 4 stats, alerta de reportes pendientes, tabla de últimas 8 propiedades
+- /admin/propiedades: tabla con filtro por status, toggle ocultar/mostrar, toggle destacar, paginación 30/página
+- /admin/usuarios: tabla con conteo de propiedades activas, toggle suspender/reactivar, no permite suspender admins
+- /admin/reportes: tabla con filtro por estado (pendiente/revisando/resuelto/todos), acciones revisar y resolver, registra resolved_by + resolved_at
+- PropertyAdminActions, UserAdminActions, ReportAdminActions: Client Components con useTransition
+- ReportButton: form expandible en detalle de propiedad (solo para usuarios autenticados no dueños), con selector de motivo y descripción opcional
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 warnings · Build: ✅ exitoso (22 rutas)
 
 ### Etapa 5 — 2026-09-06
 - SQL: trigger `update_conversation_on_message` — actualiza `conversations.updated_at` e incrementa `unread_count` al insertar mensaje
