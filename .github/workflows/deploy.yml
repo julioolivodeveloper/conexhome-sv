@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -29,8 +29,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build Next.js
-        run: npm run build
+      - name: Build for Cloudflare Pages
+        run: npm run pages:build
         env:
           NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_SITE_NAME: ${{ vars.NEXT_PUBLIC_SITE_NAME }}
@@ -40,9 +40,6 @@ jobs:
           NEXT_PUBLIC_MAP_STYLE_URL: ${{ vars.NEXT_PUBLIC_MAP_STYLE_URL }}
           NEXT_PUBLIC_MAP_TILES_URL: ${{ vars.NEXT_PUBLIC_MAP_TILES_URL }}
           NEXT_PUBLIC_PLATFORM_WHATSAPP: ${{ vars.NEXT_PUBLIC_PLATFORM_WHATSAPP }}
-
-      - name: Build for Cloudflare Pages
-        run: npm run pages:build
 
   deploy:
     name: Deploy to Cloudflare Pages
@@ -56,14 +53,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build Next.js
-        run: npm run build
+      - name: Build for Cloudflare Pages
+        run: npm run pages:build
         env:
           NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_SITE_NAME: ${{ vars.NEXT_PUBLIC_SITE_NAME }}
@@ -73,9 +70,6 @@ jobs:
           NEXT_PUBLIC_MAP_STYLE_URL: ${{ vars.NEXT_PUBLIC_MAP_STYLE_URL }}
           NEXT_PUBLIC_MAP_TILES_URL: ${{ vars.NEXT_PUBLIC_MAP_TILES_URL }}
           NEXT_PUBLIC_PLATFORM_WHATSAPP: ${{ vars.NEXT_PUBLIC_PLATFORM_WHATSAPP }}
-
-      - name: Build for Cloudflare Pages
-        run: npm run pages:build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
