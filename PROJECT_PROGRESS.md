@@ -15,7 +15,7 @@
 | 1     | Diseño y UI Base          | ✅ Completa | 2026-09-06 |
 | 2     | Supabase y Autenticación  | ✅ Completa | 2026-09-06 |
 | 3     | Publicación de Propiedades| ✅ Completa | 2026-09-06 |
-| 4     | Búsqueda y Mapa           | ⏳ Pendiente |            |
+| 4     | Búsqueda y Mapa           | ✅ Completa | 2026-09-06 |
 | 5     | Favoritos y Mensajes      | ⏳ Pendiente |            |
 | 6     | Administración y Reportes | ⏳ Pendiente |            |
 | 7     | SEO y Optimización        | ⏳ Pendiente |            |
@@ -543,6 +543,20 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 4 — 2026-09-06
+- maplibre-gl instalado como dependencia
+- map-centers.ts: coordenadas geográficas de los 14 departamentos de El Salvador
+- search.ts: parseSearchFilters, buildSearchQuery, activeFilterCount, PAGE_SIZE=12
+- SearchFiltersPanel: filtros con URL params, barra expandible, chips de filtros activos, useTransition
+- Pagination: paginación con Suspense wrapper y URL params
+- PropertyMap: MapLibre GL JS con OSM tiles, marcadores HTML con precio, popups con info de propiedad
+- MapPageClient: wrapper Client Component para dynamic import con ssr:false (Next.js 16 restriction)
+- MapViewToggle: botón Toggle Lista/Mapa con lazy load del mapa
+- /mapa: página completa con mapa de todas las propiedades publicadas (máx. 200)
+- /comprar y /alquilar: búsqueda server-side con todos los filtros + paginación + toggle mapa
+- SearchBar del hero ya conectado correctamente a /comprar y /alquilar (fix: slug → nombre)
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 warnings · Build: ✅ exitoso (15 rutas)
 
 ### Etapa 3 — 2026-09-06
 - Constantes: municipalities.ts (14 departamentos, ~250 municipios), property-types.ts ya existía

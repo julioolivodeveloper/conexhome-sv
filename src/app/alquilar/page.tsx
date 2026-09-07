@@ -1,25 +1,53 @@
 import type { Metadata } from 'next'
-import { Search } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import PropertyCard from '@/components/home/PropertyCard'
+import SearchFiltersPanel from '@/components/search/SearchFiltersPanel'
+import Pagination from '@/components/search/Pagination'
+import MapViewToggle from '@/components/search/MapViewToggle'
 import type { Property } from '@/types/property'
+import type { MapProperty } from '@/components/map/PropertyMap'
+import { parseSearchFilters, buildSearchQuery, PAGE_SIZE } from '@/lib/utils/search'
 
 export const metadata: Metadata = {
-  title: 'Alquilar propiedad en El Salvador',
+  title: 'Propiedades en alquiler en El Salvador',
   description: 'Encuentra casas, apartamentos y locales en alquiler en El Salvador.',
 }
 
-export default async function RentPage() {
+const COLUMNS = 'id, slug, title, description, operation, property_type, status, price, price_negotiable, financing_available, bedrooms, bathrooms, parking_spots, land_area, construction_area, area_unit, department, municipality, zone, cover_image_url, is_featured, view_count, created_at, published_at, contact_name, contact_preference, latitude, longitude'
+
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function RentPage({ searchParams }: PageProps) {
+  const params = await searchParams
+  const filters = parseSearchFilters(params)
+  const page = Math.max(1, parseInt(filters.pagina ?? '1'))
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
+
   const supabase = await createClient()
 
-  const { data: rows } = await supabase
+  let countQuery = supabase
     .from('properties')
-    .select('id, slug, title, description, operation, property_type, status, price, price_negotiable, financing_available, bedrooms, bathrooms, parking_spots, land_area, construction_area, area_unit, department, municipality, zone, cover_image_url, is_featured, view_count, created_at, published_at, contact_name, contact_preference')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'publicada')
+    .eq('operation', 'alquiler')
+
+  countQuery = buildSearchQuery(countQuery, filters)
+  const { count: total } = await countQuery
+
+  let dataQuery = supabase
+    .from('properties')
+    .select(COLUMNS)
     .eq('status', 'publicada')
     .eq('operation', 'alquiler')
     .order('published_at', { ascending: false })
-    .limit(48)
+    .range(from, to)
+
+  dataQuery = buildSearchQuery(dataQuery, filters)
+  const { data: rows } = await dataQuery
 
   const properties: Property[] = (rows ?? []).map((r) => ({
     id: r.id,
@@ -51,40 +79,64 @@ export default async function RentPage() {
     published_at: r.published_at ?? undefined,
   }))
 
+  const mapProperties: MapProperty[] = (rows ?? []).map((r) => ({
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    price: r.price,
+    operation: r.operation,
+    latitude: r.latitude,
+    longitude: r.longitude,
+    department: r.department,
+    municipality: r.municipality,
+    cover_image_url: r.cover_image_url,
+  }))
+
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="bg-navy py-10 px-4 sm:px-6">
+      <div className="bg-navy py-8 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
             Propiedades en alquiler
           </h1>
-          <p className="text-slate-300 text-sm">
-            {properties.length} propiedades disponibles
-          </p>
+          <div className="flex items-center gap-4 text-slate-300 text-sm">
+            <span>El Salvador</span>
+            <span>·</span>
+            <Link href="/comprar" className="hover:text-white transition-colors underline underline-offset-2">
+              Ver en venta
+            </Link>
+            <span>·</span>
+            <Link href="/mapa" className="hover:text-white transition-colors underline underline-offset-2">
+              Ver mapa
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <SearchFiltersPanel lockedOperation="alquiler" totalResults={total ?? 0} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {properties.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          <MapViewToggle properties={mapProperties}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {properties.map((property) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+            <Pagination total={total ?? 0} currentPage={page} />
+          </MapViewToggle>
         ) : (
           <div className="text-center py-20">
-            <Search className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-slate-600 mb-2">
-              Aún no hay propiedades en alquiler
-            </h2>
+            <p className="text-4xl mb-4">🔍</p>
+            <h2 className="text-lg font-semibold text-slate-600 mb-2">Sin resultados</h2>
             <p className="text-slate-400 text-sm mb-6">
-              Sé el primero en publicar una propiedad en ConexHome SV.
+              No encontramos propiedades con esos filtros. Prueba con criterios más amplios.
             </p>
             <Link
-              href="/publicar"
+              href="/alquilar"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white font-semibold rounded-xl hover:bg-accent-dark transition-colors text-sm"
             >
-              Publicar gratis
+              Ver todas en alquiler
             </Link>
           </div>
         )}

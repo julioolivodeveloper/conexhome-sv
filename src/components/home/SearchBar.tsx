@@ -69,7 +69,7 @@ export default function SearchBar() {
           >
             <option value="">Departamento</option>
             {DEPARTMENTS.map((d) => (
-              <option key={d.slug} value={d.slug}>
+              <option key={d.slug} value={d.name}>
                 {d.name}
               </option>
             ))}
