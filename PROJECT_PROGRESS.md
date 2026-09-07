@@ -13,7 +13,7 @@
 |-------|---------------------------|-------------|------------|
 | 0     | Inspección y Plan         | ✅ Completa | 2026-09-06 |
 | 1     | Diseño y UI Base          | ✅ Completa | 2026-09-06 |
-| 2     | Supabase y Autenticación  | ⏳ Pendiente |            |
+| 2     | Supabase y Autenticación  | ✅ Completa | 2026-09-06 |
 | 3     | Publicación de Propiedades| ⏳ Pendiente |            |
 | 4     | Búsqueda y Mapa           | ⏳ Pendiente |            |
 | 5     | Favoritos y Mensajes      | ⏳ Pendiente |            |
@@ -543,6 +543,20 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 2 — 2026-09-06
+- @supabase/supabase-js + @supabase/ssr instalados para SSR con cookies
+- Clientes Supabase: browser (client.ts) y servidor con cookies async (server.ts)
+- Middleware de auth (`src/middleware.ts`): protege /panel, /publicar, /favoritos, /mensajes, /admin
+- Schemas Zod: login, register (con confirmPassword refine), recover, updatePassword, profile
+- Componentes auth: LoginForm, RegisterForm, RecoverForm, UpdatePasswordForm
+- Páginas auth: /iniciar-sesion, /crear-cuenta, /recuperar-contrasena, /recuperar-contrasena/actualizar
+- Route handler auth/callback para intercambio de código OAuth/magic-link
+- Panel de usuario: layout con PanelSidebar, dashboard con stats, página de perfil con ProfileForm
+- 4 migraciones SQL ejecutadas en Supabase (14 tablas + triggers + RLS + seed)
+- Tipos TypeScript generados con `supabase gen types` (incluye Relationships para type inference)
+- Configuración manual pendiente (usuario): Auth URL, Redirect URLs, bucket property-images
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 errores · Build: ✅ exitoso (12 rutas)
 
 ### Etapa 1 — 2026-09-06
 - Next.js 16.3.4 + TypeScript + Tailwind CSS 4 configurados manualmente

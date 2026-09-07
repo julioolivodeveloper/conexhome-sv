@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Home } from 'lucide-react'
-import { Suspense } from 'react'
-import LoginForm from '@/components/auth/LoginForm'
+import { Home, ArrowLeft } from 'lucide-react'
+import RecoverForm from '@/components/auth/RecoverForm'
 
 export const metadata: Metadata = {
-  title: 'Iniciar sesión',
+  title: 'Recuperar contraseña',
 }
 
-export default function LoginPage() {
+export default function RecoverPage() {
   return (
     <div className="w-full max-w-md">
       {/* Logo */}
@@ -23,25 +22,23 @@ export default function LoginPage() {
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
         <h1 className="text-2xl font-bold text-navy mb-1 text-center">
-          Iniciar sesión
+          Recuperar contraseña
         </h1>
         <p className="text-slate-500 text-sm text-center mb-6">
-          Ingresa a tu cuenta para continuar
+          Ingresa tu correo y te enviaremos instrucciones
         </p>
 
-        <Suspense>
-          <LoginForm />
-        </Suspense>
+        <RecoverForm />
 
-        <p className="text-center text-sm text-slate-500 mt-5">
-          ¿No tienes cuenta?{' '}
+        <div className="mt-5 text-center">
           <Link
-            href="/crear-cuenta"
-            className="text-accent font-semibold hover:underline"
+            href="/iniciar-sesion"
+            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-accent"
           >
-            Crear cuenta gratis
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Volver al inicio de sesión
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   )

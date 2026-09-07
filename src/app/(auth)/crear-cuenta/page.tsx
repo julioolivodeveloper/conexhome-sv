@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Home } from 'lucide-react'
+import RegisterForm from '@/components/auth/RegisterForm'
 
 export const metadata: Metadata = {
   title: 'Crear cuenta',
@@ -20,58 +21,21 @@ export default function RegisterPage() {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-        <h1 className="text-2xl font-bold text-navy mb-1 text-center">Crear cuenta gratis</h1>
+        <h1 className="text-2xl font-bold text-navy mb-1 text-center">
+          Crear cuenta gratis
+        </h1>
         <p className="text-slate-500 text-sm text-center mb-6">
-          Únete a ConexHome SV y publica propiedades gratis
+          Únete y publica propiedades gratis en El Salvador
         </p>
 
-        {/* Placeholder form — Etapa 2 implementará la lógica */}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Nombre completo
-            </label>
-            <input
-              type="text"
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              placeholder="Tu nombre"
-              disabled
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              placeholder="tu@correo.com"
-              disabled
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              placeholder="••••••••"
-              disabled
-            />
-          </div>
-
-          <button
-            disabled
-            className="w-full py-3 bg-accent text-white font-semibold rounded-xl opacity-60 cursor-not-allowed text-sm"
-          >
-            Crear cuenta — disponible en Etapa 2
-          </button>
-        </div>
+        <RegisterForm />
 
         <p className="text-center text-sm text-slate-500 mt-5">
           ¿Ya tienes cuenta?{' '}
-          <Link href="/iniciar-sesion" className="text-accent font-semibold hover:underline">
+          <Link
+            href="/iniciar-sesion"
+            className="text-accent font-semibold hover:underline"
+          >
             Iniciar sesión
           </Link>
         </p>
