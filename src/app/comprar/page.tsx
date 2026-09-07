@@ -8,6 +8,7 @@ import MapViewToggle from '@/components/search/MapViewToggle'
 import type { Property } from '@/types/property'
 import type { MapProperty } from '@/components/map/PropertyMap'
 import { parseSearchFilters, buildSearchQuery, PAGE_SIZE } from '@/lib/utils/search'
+import EmptyProperties from '@/components/search/EmptyProperties'
 
 export const metadata: Metadata = {
   title: 'Propiedades en venta en El Salvador',
@@ -140,19 +141,7 @@ export default async function BuyPage({ searchParams }: PageProps) {
             <Pagination total={total ?? 0} currentPage={page} />
           </MapViewToggle>
         ) : (
-          <div className="text-center py-20">
-            <p className="text-4xl mb-4">🔍</p>
-            <h2 className="text-lg font-semibold text-slate-600 mb-2">Sin resultados</h2>
-            <p className="text-slate-400 text-sm mb-6">
-              No encontramos propiedades con esos filtros. Prueba con criterios más amplios.
-            </p>
-            <Link
-              href="/comprar"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white font-semibold rounded-xl hover:bg-accent-dark transition-colors text-sm"
-            >
-              Ver todas en venta
-            </Link>
-          </div>
+          <EmptyProperties operation="venta" hasFilters={Object.keys(filters).filter(k => k !== 'pagina').length > 0} />
         )}
       </div>
     </main>
