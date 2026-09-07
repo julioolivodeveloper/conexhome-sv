@@ -9,6 +9,7 @@ import { createClient } from '@/lib/supabase/server'
 import { formatPrice, formatArea, formatRelativeTime } from '@/lib/utils/format'
 import SendMessageButton from '@/components/messages/SendMessageButton'
 import FavoriteButton from '@/components/favorites/FavoriteButton'
+import ReportButton from '@/components/admin/ReportButton'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -349,6 +350,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               <p className="text-xs text-slate-400 mt-4 text-center leading-relaxed">
                 Al contactar, menciona que viste esta propiedad en ConexHome SV.
               </p>
+
+              <ReportButton
+                propertyId={property.id}
+                isAuthenticated={!!user && user.id !== property.user_id}
+              />
             </div>
           </div>
         </div>
