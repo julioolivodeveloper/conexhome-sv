@@ -14,7 +14,7 @@
 | 0     | Inspección y Plan         | ✅ Completa | 2026-09-06 |
 | 1     | Diseño y UI Base          | ✅ Completa | 2026-09-06 |
 | 2     | Supabase y Autenticación  | ✅ Completa | 2026-09-06 |
-| 3     | Publicación de Propiedades| ⏳ Pendiente |            |
+| 3     | Publicación de Propiedades| ✅ Completa | 2026-09-06 |
 | 4     | Búsqueda y Mapa           | ⏳ Pendiente |            |
 | 5     | Favoritos y Mensajes      | ⏳ Pendiente |            |
 | 6     | Administración y Reportes | ⏳ Pendiente |            |
@@ -543,6 +543,21 @@ export const APP_CONFIG = {
 ---
 
 ## Historial de etapas
+
+### Etapa 3 — 2026-09-06
+- Constantes: municipalities.ts (14 departamentos, ~250 municipios), property-types.ts ya existía
+- slug.ts: generateSlug(title, id) → normaliza, remueve acentos, concatena shortId
+- Zod: propertySchema con 24 campos validados para el wizard
+- Server Actions: createProperty (con doble check de límite + RLS), addPropertyImages, updatePropertyStatus
+- Wizard de 7 pasos: Operación → Info → Características → Ubicación → Fotos → Contacto → Revisión
+- ImageUploader: compresión a WebP (Canvas API), máx. 10 fotos, portada seleccionable
+- PublishWizard: estado compartido entre pasos, upload a Supabase Storage, redirige al detalle
+- Página /publicar (protegida, carga amenidades y slots disponibles)
+- Página /propiedades/[slug]: detalle público con galería, contacto WhatsApp/teléfono
+- Página /panel/propiedades: listado con estados, acciones (publicar, pausar, vender, eliminar)
+- PropertyStatusActions: Client Component para cambios de estado sin page reload
+- /comprar y /alquilar: actualizadas para usar datos reales de la DB
+- TypeScript: ✅ 0 errores · ESLint: ✅ 0 warnings · Build: ✅ exitoso (14 rutas)
 
 ### Etapa 2 — 2026-09-06
 - @supabase/supabase-js + @supabase/ssr instalados para SSR con cookies
