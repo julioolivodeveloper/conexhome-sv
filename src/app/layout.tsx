@@ -6,6 +6,8 @@ import Footer from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const runtime = 'edge'
+
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://conexhomesv.com'
 const DESC =
   'Compra, vende o alquila propiedades en El Salvador de forma gratuita. Casas, apartamentos, terrenos y más en los 14 departamentos.'

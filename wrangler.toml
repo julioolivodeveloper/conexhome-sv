@@ -1,0 +1,11 @@
+name = "conexhome-sv"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+# Variables de entorno públicas (sin secretos)
+# Los secretos (SUPABASE_SERVICE_ROLE_KEY) se configuran SOLO en el dashboard de Cloudflare Pages
+[vars]
+NEXT_PUBLIC_SITE_NAME = "ConexHome SV"
+NEXT_PUBLIC_MAP_STYLE_URL = "https://demotiles.maplibre.org/style.json"
+NEXT_PUBLIC_MAP_TILES_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
