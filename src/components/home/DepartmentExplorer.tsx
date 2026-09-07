@@ -3,38 +3,39 @@ import Image from 'next/image'
 import { MapPin, ArrowRight } from 'lucide-react'
 import { DEPARTMENTS } from '@/lib/constants/departments'
 
+// Fotos reales de El Salvador — verificadas en Unsplash
 const DEPT_IMAGES: Record<string, string> = {
   ahuachapan:
-    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1675185457011-472a2ee071e2?auto=format&fit=crop&w=600&q=75',
   sonsonate:
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500016651-b2d887b9bf2e?auto=format&fit=crop&w=600&q=75',
   'santa-ana':
-    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1652067871244-4a3b3665813a?auto=format&fit=crop&w=600&q=75',
   chalatenango:
-    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500016271-2e465bf29222?auto=format&fit=crop&w=600&q=75',
   'la-libertad':
-    'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1740712776769-bfcb8fffc037?auto=format&fit=crop&w=600&q=75',
   'san-salvador':
-    'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1690384451505-2aef8ae1b0ef?auto=format&fit=crop&w=600&q=75',
   cuscatlan:
-    'https://images.unsplash.com/photo-1559494007-a929a61e5eb9?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1680374635221-aca00abf60f5?auto=format&fit=crop&w=600&q=75',
   'la-paz':
-    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1701815843374-e60912e3cec6?auto=format&fit=crop&w=600&q=75',
   cabanas:
-    'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1680374635211-7709371694af?auto=format&fit=crop&w=600&q=75',
   'san-vicente':
-    'https://images.unsplash.com/photo-1518451879369-f3e7b1b1b87b?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500015339-6df1847039e0?auto=format&fit=crop&w=600&q=75',
   usulutan:
-    'https://images.unsplash.com/photo-1500534314209-a157d0e14d0d?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1721726672239-2d0e6940cb07?auto=format&fit=crop&w=600&q=75',
   'san-miguel':
-    'https://images.unsplash.com/photo-1476514525405-8f83aadb3174?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500015176-3c8bf40ec2f4?auto=format&fit=crop&w=600&q=75',
   morazan:
-    'https://images.unsplash.com/photo-1516026672322-375600ea61b2?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500014676-ed74e6dde2ea?auto=format&fit=crop&w=600&q=75',
   'la-union':
-    'https://images.unsplash.com/photo-1510414842594-a61c69b4fcc4?auto=format&fit=crop&w=600&q=75',
+    'https://images.unsplash.com/photo-1743500014249-a8b22a6280d5?auto=format&fit=crop&w=600&q=75',
 }
 
-const FALLBACK = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=75'
+const FALLBACK = 'https://images.unsplash.com/photo-1632023686136-874d9083d603?auto=format&fit=crop&w=600&q=75'
 
 export default function DepartmentExplorer() {
   return (

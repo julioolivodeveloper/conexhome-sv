@@ -2,8 +2,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { PlusCircle, Search } from 'lucide-react'
 
+// Playa El Tunco, La Libertad — foto real de El Salvador
 const HERO_IMG =
-  'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1600&q=80'
+  'https://images.unsplash.com/photo-1632023686136-874d9083d603?auto=format&fit=crop&w=1600&q=80'
 
 export default function HeroSection() {
   return (
