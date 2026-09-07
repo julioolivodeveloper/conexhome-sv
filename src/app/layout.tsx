@@ -6,20 +6,39 @@ import Footer from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://conexhomesv.com'
+const DESC =
+  'Compra, vende o alquila propiedades en El Salvador de forma gratuita. Casas, apartamentos, terrenos y más en los 14 departamentos.'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE),
   title: {
-    default: 'ConexHome SV — Compra, vende o alquila propiedades en El Salvador',
+    default: 'ConexHome SV — Propiedades en El Salvador',
     template: '%s | ConexHome SV',
   },
-  description:
-    'Encuentra tu próximo hogar o publica tu propiedad gratuitamente. La plataforma inmobiliaria más completa de El Salvador.',
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://conexhomesv.com'
-  ),
+  description: DESC,
+  keywords: ['propiedades El Salvador', 'casas en venta El Salvador', 'apartamentos alquiler El Salvador', 'inmuebles El Salvador', 'bienes raíces SV'],
+  authors: [{ name: 'ConexHome SV', url: BASE }],
   openGraph: {
     siteName: 'ConexHome SV',
     locale: 'es_SV',
     type: 'website',
+    title: 'ConexHome SV — Propiedades en El Salvador',
+    description: DESC,
+    url: BASE,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ConexHome SV — Propiedades en El Salvador',
+    description: DESC,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  alternates: {
+    canonical: BASE,
   },
 }
 

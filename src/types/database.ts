@@ -635,6 +635,10 @@ export type Database = {
     }
     Functions: {
       check_property_limit: { Args: { p_user_id: string }; Returns: boolean }
+      increment_property_view: {
+        Args: { p_property_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: { user_id: string }; Returns: boolean }
     }
     Enums: {

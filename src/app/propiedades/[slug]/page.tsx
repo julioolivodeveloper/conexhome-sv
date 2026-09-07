@@ -10,6 +10,8 @@ import { formatPrice, formatArea, formatRelativeTime } from '@/lib/utils/format'
 import SendMessageButton from '@/components/messages/SendMessageButton'
 import FavoriteButton from '@/components/favorites/FavoriteButton'
 import ReportButton from '@/components/admin/ReportButton'
+import PropertyJsonLd from '@/components/property/PropertyJsonLd'
+import ViewTracker from '@/components/property/ViewTracker'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -20,15 +22,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const supabase = await createClient()
   const { data } = await supabase
     .from('properties')
-    .select('title, description, department, municipality')
+    .select('title, description, department, municipality, cover_image_url, price, operation')
     .eq('slug', slug)
     .single()
 
   if (!data) return { title: 'Propiedad no encontrada' }
 
+  const desc =
+    data.description ??
+    `${data.operation === 'venta' ? 'En venta' : 'En alquiler'} en ${data.municipality}, ${data.department}, El Salvador.`
+
   return {
-    title: `${data.title} — ConexHome SV`,
-    description: data.description ?? `Propiedad en ${data.municipality}, ${data.department}`,
+    title: `${data.title}`,
+    description: desc,
+    openGraph: {
+      title: data.title,
+      description: desc,
+      type: 'website',
+      ...(data.cover_image_url ? { images: [{ url: data.cover_image_url, width: 1200, height: 630 }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: desc,
+      ...(data.cover_image_url ? { images: [data.cover_image_url] } : {}),
+    },
   }
 }
 
@@ -86,6 +104,18 @@ export default async function PropertyDetailPage({ params }: PageProps) {
   const mainImage = images.find((i) => i.is_cover)?.public_url ?? images[0]?.public_url
 
   return (
+    <>
+      <PropertyJsonLd
+        title={property.title}
+        description={property.description}
+        price={property.price}
+        operation={property.operation}
+        department={property.department}
+        municipality={property.municipality}
+        slug={property.slug}
+        imageUrl={mainImage ?? null}
+      />
+      <ViewTracker propertyId={property.id} />
     <main className="min-h-screen bg-slate-50">
       {/* Back nav */}
       <div className="bg-white border-b border-slate-100">
@@ -360,5 +390,6 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         </div>
       </div>
     </main>
+    </>
   )
 }
